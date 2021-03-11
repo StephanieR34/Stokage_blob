@@ -42,7 +42,7 @@ def main(args,config):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser("Logiciel d'archivage de documents")
-    parser.add_argument("-cfg",default="config.cfg",help="chemin du fichier de configuration")
+    parser.add_argument("-cfg",default="config.ini",help="chemin du fichier de configuration")
     parser.add_argument("-lvl",default="info",help="niveau de log")
     subparsers=parser.add_subparsers(dest="action",help="type d'operation")
     subparsers.required=True
