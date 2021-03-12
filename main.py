@@ -1,46 +1,77 @@
 import sys
 import argparse
-import configparser
+import configparser # permet l'utilisation des variable du fichier config
 import logging
 import os.path
 from azure.storage.blob import BlobServiceClient, ContainerClient, BlobClient
+# BlobServiceClient: La classe BlobServiceClient vous permet de manipuler les ressources de stockage Azure et les conteneurs blob.
+# ContainerClient : La classe ContainerClient vous permet de manipuler des conteneurs de stockage Azure et leurs blobs.
+# BlobClient : La classe BlobClient vous permet de manipuler des blobs de stockage Azure.
 
 
 def listb(args, containerclient):
+    """
+    this function return one list of all of file
+    on the blob storage 
+    """
+    logging.info("fonctions de récupération de la liste des fichiers présent sur le blob")
     blob_list=containerclient.list_blobs()
     for blob in blob_list:
         print(blob.name)
 
 
 def upload(cible, blobclient):
+    """
+    this function upload one file from our pc
+    to your blob storage
+    """
+    logging.info(f"Ouverture du fichier {cible} pour l'envoyer ")
     with open(cible, "rb") as f:
+        logging.warning(f"envois des fichiers sur le container {blobclient}")
         blobclient.upload_blob(f)
 
 
 def download(filename, dl_folder, blobclient):
+    """
+    this function download one file of your choice 
+    from your blob storage to your pc
+    """
+    logging.info(f"Ouverture du fichier {filename} pour le telecharger ")
     with open(os.path.join(dl_folder,filename), "wb") as my_blob:
+        logging.warning(f"recuperation des fichiers {filename} sur le container {blobclient}")
         blob_data=blobclient.download_blob()
         blob_data.readinto(my_blob)
 
 
 def main(args,config):
+    """
+    cible un compte de stockage, puis cible un container puis
+    en fonction des arguments passer en ligne de commande elle lance la fonction adapté
+    """
+    logging.info("lancement de la fonction main")
     blobclient=BlobServiceClient(
         f"https://{config['storage']['account']}.blob.core.windows.net",
         config["storage"]["key"],
         logging_enable=False)
+    logging.debug("connection au compte de stockage effectuer")
     containerclient=blobclient.get_container_client(config["storage"]["container"])
+    logging.debug("connection au container de stockage")
     if args.action=="list":
+        logging.debug("l'arg list a été passé. Lancement de la fonction liste")
         return listb(args, containerclient)
     else:
         if args.action=="upload":
             blobclient=containerclient.get_blob_client(os.path.basename(args.cible))
+            logging.debug("arg upload a été passé. Lancement de la fonction upload")
             return upload(args.cible, blobclient)
         elif args.action=="download":
+            logging.debug("arg download a été passé. Lancement de la fonction download")
             blobclient=containerclient.get_blob_client(os.path.basename(args.remote))
             return download(args.remote, config["general"]["restoredir"], blobclient)
     
 
 if __name__=="__main__":
+    # définition des différents arguments 
     parser=argparse.ArgumentParser("Logiciel d'archivage de documents")
     parser.add_argument("-cfg",default="config.ini",help="chemin du fichier de configuration")
     parser.add_argument("-lvl",default="info",help="niveau de log")
@@ -56,9 +87,10 @@ if __name__=="__main__":
 
     args=parser.parse_args()
 
-    #erreur dans logging.warning : on a la fonction au lieu de l'entier
+    
     loglevels={"debug":logging.DEBUG, "info":logging.INFO, "warning":logging.WARNING, "error":logging.ERROR, "critical":logging.CRITICAL}
-    print(loglevels[args.lvl.lower()])
+    logging.debug(loglevels[args.lvl.lower()])
+    print(f"lvl of logging = {[args.lvl.lower()]}")
     logging.basicConfig(level=loglevels[args.lvl.lower()])
 
     config=configparser.ConfigParser()
