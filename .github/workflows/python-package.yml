@@ -27,10 +27,10 @@ jobs:
         pip install -r requirements.txt;        
     - name: auto pdoc
       run: |
-        pdoc3 --html -o tmp back/
+        pdoc3 --html -o tmp 
         rm -rf docs
         mkdir -p docs/
-        mv tmp/back/* docs/
+        mv tmp/* docs/
         rm -rf tmp/
     - name: Commit files
       run: |
