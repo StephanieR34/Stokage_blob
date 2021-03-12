@@ -27,7 +27,7 @@ jobs:
         pip install -r requirements.txt;        
     - name: auto pdoc
       run: |
-        pdoc3 --html -o tmp 
+        pdoc3 --html -o tmp main.py
         rm -rf docs
         mkdir -p docs/
         mv tmp/* docs/
