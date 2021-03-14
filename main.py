@@ -83,16 +83,17 @@ if __name__=="__main__":
 
     parser_r=subparsers.add_parser("download")
     parser_r.add_argument("remote",help="nom du fichier à télécharger")
+    
     parser_r=subparsers.add_parser("list")
 
     args=parser.parse_args()
 
     
     loglevels={"debug":logging.DEBUG, "info":logging.INFO, "warning":logging.WARNING, "error":logging.ERROR, "critical":logging.CRITICAL}
-    logging.debug(loglevels[args.lvl.lower()])
-    print(f"lvl of logging = {[args.lvl.lower()]}")
-    logging.basicConfig(level=loglevels[args.lvl.lower()])
+    
 
+    logging.basicConfig(level=loglevels[args.lvl.lower()])
+    
     config=configparser.ConfigParser()
     config.read(args.cfg)
 
