@@ -41,6 +41,7 @@ def listb(args, containerclient):
     &#34;&#34;&#34;
     this function return one list of all of file
     on the blob storage 
+
     &#34;&#34;&#34;
     logging.info(&#34;fonctions de récupération de la liste des fichiers présent sur le blob&#34;)
     blob_list=containerclient.list_blobs()
@@ -52,6 +53,7 @@ def upload(cible, blobclient):
     &#34;&#34;&#34;
     this function upload one file from our pc
     to your blob storage
+
     &#34;&#34;&#34;
     logging.info(f&#34;Ouverture du fichier {cible} pour l&#39;envoyer &#34;)
     with open(cible, &#34;rb&#34;) as f:
@@ -63,6 +65,7 @@ def download(filename, dl_folder, blobclient):
     &#34;&#34;&#34;
     this function download one file of your choice 
     from your blob storage to your pc
+
     &#34;&#34;&#34;
     logging.info(f&#34;Ouverture du fichier {filename} pour le telecharger &#34;)
     with open(os.path.join(dl_folder,filename), &#34;wb&#34;) as my_blob:
@@ -75,6 +78,19 @@ def main(args,config):
     &#34;&#34;&#34;
     cible un compte de stockage, puis cible un container puis
     en fonction des arguments passer en ligne de commande elle lance la fonction adapté
+    
+    si l&#39;argument entrée en ligne de commande est list
+    la fonction listb returne l&#39;intituler de tout les blobs 
+    contnues dans le conteneur Azure 
+
+    si l&#39;argument upload et spécifier en ligne de commande 
+    cette fonction prend le chemin d&#39;accés du fichier passer en ligne de commande aussi 
+    et envois ce ficher sur le conteneur Azure
+
+    si l&#39;argument download suivit d&#39;un noms de fichier
+    est passer en ligne de commande cette fonction 
+    va télecharger le fichier demander depuis le container de stockage
+    Azur sur le pc client   
     &#34;&#34;&#34;
     logging.info(&#34;lancement de la fonction main&#34;)
     blobclient=BlobServiceClient(
@@ -85,6 +101,11 @@ def main(args,config):
     containerclient=blobclient.get_container_client(config[&#34;storage&#34;][&#34;container&#34;])
     logging.debug(&#34;connection au container de stockage&#34;)
     if args.action==&#34;list&#34;:
+        &#34;&#34;&#34;
+        si l&#39;argument entrée en ligne de commande est list
+        la fonction listb returne l&#39;intituler de tout les blobs 
+        contnues dans le conteneur Azure 
+        &#34;&#34;&#34;
         logging.debug(&#34;l&#39;arg list a été passé. Lancement de la fonction liste&#34;)
         return listb(args, containerclient)
     else:
@@ -149,6 +170,7 @@ from your blob storage to your pc</p></div>
     &#34;&#34;&#34;
     this function download one file of your choice 
     from your blob storage to your pc
+
     &#34;&#34;&#34;
     logging.info(f&#34;Ouverture du fichier {filename} pour le telecharger &#34;)
     with open(os.path.join(dl_folder,filename), &#34;wb&#34;) as my_blob:
@@ -171,6 +193,7 @@ on the blob storage</p></div>
     &#34;&#34;&#34;
     this function return one list of all of file
     on the blob storage 
+
     &#34;&#34;&#34;
     logging.info(&#34;fonctions de récupération de la liste des fichiers présent sur le blob&#34;)
     blob_list=containerclient.list_blobs()
@@ -183,7 +206,17 @@ on the blob storage</p></div>
 </code></dt>
 <dd>
 <div class="desc"><p>cible un compte de stockage, puis cible un container puis
-en fonction des arguments passer en ligne de commande elle lance la fonction adapté</p></div>
+en fonction des arguments passer en ligne de commande elle lance la fonction adapté</p>
+<p>si l'argument entrée en ligne de commande est list
+la fonction listb returne l'intituler de tout les blobs
+contnues dans le conteneur Azure </p>
+<p>si l'argument upload et spécifier en ligne de commande
+cette fonction prend le chemin d'accés du fichier passer en ligne de commande aussi
+et envois ce ficher sur le conteneur Azure</p>
+<p>si l'argument download suivit d'un noms de fichier
+est passer en ligne de commande cette fonction
+va télecharger le fichier demander depuis le container de stockage
+Azur sur le pc client</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -192,6 +225,19 @@ en fonction des arguments passer en ligne de commande elle lance la fonction ada
     &#34;&#34;&#34;
     cible un compte de stockage, puis cible un container puis
     en fonction des arguments passer en ligne de commande elle lance la fonction adapté
+    
+    si l&#39;argument entrée en ligne de commande est list
+    la fonction listb returne l&#39;intituler de tout les blobs 
+    contnues dans le conteneur Azure 
+
+    si l&#39;argument upload et spécifier en ligne de commande 
+    cette fonction prend le chemin d&#39;accés du fichier passer en ligne de commande aussi 
+    et envois ce ficher sur le conteneur Azure
+
+    si l&#39;argument download suivit d&#39;un noms de fichier
+    est passer en ligne de commande cette fonction 
+    va télecharger le fichier demander depuis le container de stockage
+    Azur sur le pc client   
     &#34;&#34;&#34;
     logging.info(&#34;lancement de la fonction main&#34;)
     blobclient=BlobServiceClient(
@@ -202,6 +248,11 @@ en fonction des arguments passer en ligne de commande elle lance la fonction ada
     containerclient=blobclient.get_container_client(config[&#34;storage&#34;][&#34;container&#34;])
     logging.debug(&#34;connection au container de stockage&#34;)
     if args.action==&#34;list&#34;:
+        &#34;&#34;&#34;
+        si l&#39;argument entrée en ligne de commande est list
+        la fonction listb returne l&#39;intituler de tout les blobs 
+        contnues dans le conteneur Azure 
+        &#34;&#34;&#34;
         logging.debug(&#34;l&#39;arg list a été passé. Lancement de la fonction liste&#34;)
         return listb(args, containerclient)
     else:
@@ -229,6 +280,7 @@ to your blob storage</p></div>
     &#34;&#34;&#34;
     this function upload one file from our pc
     to your blob storage
+
     &#34;&#34;&#34;
     logging.info(f&#34;Ouverture du fichier {cible} pour l&#39;envoyer &#34;)
     with open(cible, &#34;rb&#34;) as f:
