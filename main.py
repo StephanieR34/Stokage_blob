@@ -13,6 +13,7 @@ def listb(args, containerclient):
     """
     this function return one list of all of file
     on the blob storage 
+
     """
     logging.info("fonctions de récupération de la liste des fichiers présent sur le blob")
     blob_list=containerclient.list_blobs()
@@ -24,6 +25,7 @@ def upload(cible, blobclient):
     """
     this function upload one file from our pc
     to your blob storage
+
     """
     logging.info(f"Ouverture du fichier {cible} pour l'envoyer ")
     with open(cible, "rb") as f:
@@ -35,6 +37,7 @@ def download(filename, dl_folder, blobclient):
     """
     this function download one file of your choice 
     from your blob storage to your pc
+
     """
     logging.info(f"Ouverture du fichier {filename} pour le telecharger ")
     with open(os.path.join(dl_folder,filename), "wb") as my_blob:
@@ -47,6 +50,19 @@ def main(args,config):
     """
     cible un compte de stockage, puis cible un container puis
     en fonction des arguments passer en ligne de commande elle lance la fonction adapté
+    
+    si l'argument entrée en ligne de commande est list
+    la fonction listb returne l'intituler de tout les blobs 
+    contnues dans le conteneur Azure 
+
+    si l'argument upload et spécifier en ligne de commande 
+    cette fonction prend le chemin d'accés du fichier passer en ligne de commande aussi 
+    et envois ce ficher sur le conteneur Azure
+
+    si l'argument download suivit d'un noms de fichier
+    est passer en ligne de commande cette fonction 
+    va télecharger le fichier demander depuis le container de stockage
+    Azur sur le pc client   
     """
     logging.info("lancement de la fonction main")
     blobclient=BlobServiceClient(
@@ -57,6 +73,11 @@ def main(args,config):
     containerclient=blobclient.get_container_client(config["storage"]["container"])
     logging.debug("connection au container de stockage")
     if args.action=="list":
+        """
+        si l'argument entrée en ligne de commande est list
+        la fonction listb returne l'intituler de tout les blobs 
+        contnues dans le conteneur Azure 
+        """
         logging.debug("l'arg list a été passé. Lancement de la fonction liste")
         return listb(args, containerclient)
     else:
